@@ -1,0 +1,57 @@
+name: anki-alpha-casept
+version: '2.1.0a10'
+summary: Friendly, intelligent flash cards. This is an unofficial snap. 
+description: |
+  Anki is a program which makes remembering things easy.
+  Because it's a lot more efficient than traditional study methods, you can either greatly decrease your time spent studying, or greatly increase the amount you learn.
+
+  Anyone who needs to remember things in their daily life can benefit from Anki.
+  Since it is content-agnostic and supports images, audio, videos and scientific markup (via LaTeX), the possibilities are endless.
+grade: devel # must be 'stable' to release into candidate/stable channels
+confinement: devmode # use 'strict' once you have the right plugs and slots
+
+apps:
+  anki:
+    command: qt5-launch usr/bin/runanki
+    plugs: [network, x11, browser-support, pulseaudio]    
+
+parts:
+
+  anki:
+    plugin: python 
+    stage-packages:
+      - python3
+      - python3-pyqt5
+#     - python3-bs4
+#     - python3-send2trash
+#     - python3-httplib2
+#     - python3-pyaudio
+#     - python3-requests
+      - lame
+      - libportaudio2
+      - libc6
+      - mplayer
+    build-packages:
+      - pyqt5-dev-tools
+      - python3-pip
+      - xdg-utils
+      - build-essential
+      - portaudio19-dev
+    source: https://apps.ankiweb.net/downloads/alpha/alpha10/anki-2.1.0a10-source.tgz
+    python-version: python3
+    requirements: requirements.txt
+    #Upstream Makefile sucks a**, we do our own thing.
+    #TODO: Use organize instead of an sh script
+    install: |
+      #Drop some files 
+      mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share/anki/
+      cp -av *  $SNAPCRAFT_PART_INSTALL/usr/share/anki/
+      cd  $SNAPCRAFT_PART_INSTALL/usr/share/anki
+      #Install runanki
+      mv  $SNAPCRAFT_PART_INSTALL/tools/runanki.system  $SNAPCRAFT_PART_INSTALL/usr/bin/runanki
+      #Manpage
+      mv anki.1  $SNAPCRAFT_PART_INSTALL/usr/share/man/man1/ 
+  launcher:
+    plugin: copy
+    files:
+      qt5-launch: bin/qt5-launch
