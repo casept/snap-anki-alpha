@@ -3,17 +3,23 @@ version: '2.1.0a10'
 summary: Friendly, intelligent flash cards. This is an unofficial snap. 
 description: |
   Anki is a program which makes remembering things easy.
-  Because it's a lot more efficient than traditional study methods, you can either greatly decrease your time spent studying, or greatly increase the amount you learn.
+  Because it's a lot more efficient than traditional study methods,
+  you can either greatly decrease your time spent studying, or greatly increase the amount you learn.
 
   Anyone who needs to remember things in their daily life can benefit from Anki.
-  Since it is content-agnostic and supports images, audio, videos and scientific markup (via LaTeX), the possibilities are endless.
+  Since it is content-agnostic and supports images, audio, videos
+  and scientific markup (via LaTeX), the possibilities are endless.
+
+
 grade: devel # must be 'stable' to release into candidate/stable channels
-confinement: devmode # use 'strict' once you have the right plugs and slots
+confinement: strict
+
 
 apps:
   anki:
-    command: qt5-launch usr/local/bin/anki
-    plugs: [network, x11, browser-support, pulseaudio]    
+    command: desktop-launch $SNAP/usr/local/bin/anki
+    plugs: [network, x11, browser-support, pulseaudio]
+
 
 parts:
   depends:
@@ -43,12 +49,7 @@ parts:
     plugin: make 
     source: https://apps.ankiweb.net/downloads/alpha/alpha10/anki-2.1.0a10-source.tgz
     prepare: |
-      mkdir -p $SNAPCRAFT_PART_INSTALL/usr/local/bin
+      mkdir -p $SNAPCRAFT_PART_INSTALL/usr/local/bin/
       mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share/man/man1/
       mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share/applications/
-    after: [depends]
-
-  launcher:
-    plugin: copy
-    files:
-      qt5-launch: bin/qt5-launch
+    after: [depends, desktop-qt5]
