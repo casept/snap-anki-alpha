@@ -33,7 +33,8 @@ parts:
       - lame
       - libportaudio2
       - mplayer
-
+      - libpulse0
+      - libgl1-mesa-dri
       - python3-bs4
       - python3-httplib2
       - python3-pyaudio
