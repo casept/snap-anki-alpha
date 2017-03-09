@@ -39,6 +39,7 @@ parts:
       - python3-httplib2
       - python3-pyaudio
       - python3-requests
+      - texlive-full
 
     build-packages:
       - pyqt5-dev-tools
