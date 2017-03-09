@@ -1,0 +1,6 @@
+#!/bin/sh
+# This wrapper sets a proper PYTHONPATH and PYTHONHOME
+export PYTHONUSERBASE=$SNAP
+export PYTHONHOME=$SNAP/usr/
+export PYTHONPATH=$SNAP/usr:$SNAP/usr/local/:$SNAP/usr/lib/python3/dist-packages:$SNAP/usr/share/anki/
+exec "$@"
