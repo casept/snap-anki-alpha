@@ -18,7 +18,7 @@ confinement: strict
 apps:
   anki:
     command: desktop-launch $SNAP/bin/python-wrapper $SNAP/usr/local/bin/anki
-    plugs: [network, x11, opengl, pulseaudio]
+    plugs: [network, x11, opengl, unity7, pulseaudio]
 
 
 parts:
